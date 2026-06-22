@@ -17,25 +17,25 @@ func main() {
 		RiderCount:  100,
 		OrderCount:  10000,
 		TimeLimit:   30,
-	}) // 分配时间:0.0012399s
+	}) // 分配时间:0.0012399s(无订单切片) ||| 分配时间:0.0021185s(有订单切片)
 	test(config.Config{
 		Concurrency: 2,
 		RiderCount:  1000,
 		OrderCount:  100000,
 		TimeLimit:   60,
-	}) // 分配时间:0.0182922s
+	}) // 分配时间:0.0182922s(无订单切片) ||| 分配时间:0.0193193s(有订单切片)
 	test(config.Config{
 		Concurrency: 2,
 		RiderCount:  10000,
 		OrderCount:  1000000,
 		TimeLimit:   180,
-	}) // 分配时间:0.2151369s
+	}) // 分配时间:0.2151369s(无订单切片) ||| 分配时间:0.2295283s(有订单切片)
 	test(config.Config{
 		Concurrency: 2,
 		RiderCount:  100000,
 		OrderCount:  10000000,
 		TimeLimit:   600,
-	}) // 分配时间:4.8138713s
+	}) // 分配时间:4.8138713s(无订单切片) ||| 分配时间:5.1135213s(有订单切片)
 }
 
 func test(cfg config.Config) {
@@ -65,6 +65,8 @@ func test(cfg config.Config) {
 	//5、查看末尾
 	dispatcher.ShowTail10()
 	// heap profile
+	// 无骑手订单~30MB  (极端情况)
+	// 有骑手订单~500MB (极端情况)
 	heapFlie, err := os.Create("heap.prof")
 	if err != nil {
 		fmt.Println("Create heap.prof filed:", err)

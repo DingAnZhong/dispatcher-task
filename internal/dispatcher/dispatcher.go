@@ -45,9 +45,6 @@ func (d *Dispatcher) Dispatch() {
 	// 启动一个协程入队
 	go d.push2rq()
 	concurrency := d.cfg.Concurrency
-	if concurrency <= 0 {
-		concurrency = 1
-	}
 
 	gridIndex := NewGrid(d.riderList)
 	startTime := time.Now()
@@ -109,6 +106,7 @@ func (d *Dispatcher) assignOrder(order *entity.Order, grid [][]Grid) {
 
 	if bestRider != nil {
 		bestRider.Cap.Add(1)
+		bestRider.AddOrder(order)
 	}
 }
 
